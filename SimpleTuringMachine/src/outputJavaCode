@@ -1,0 +1,166 @@
+public class TuringMachine extends Run_Model {
+    class ConwayOperator {
+        
+        File fInput;
+        File fOutput;
+        char[] fileArray;
+        char[][] generation;
+        int[][] state;
+        
+        int row;
+        int column;
+        int gen;
+        int writeFlag = 1;
+        
+        String inputName;
+        String outputName;
+        
+        public ConwayOperator(String inputName, String outputName, int gen) throws Exception {
+            this.inputName = inputName;
+            this.outputName = outputName;
+            this.gen = gen;
+            fInput = new File(inputName);
+            fOutput = new File(outputName);
+            String firstLine = scanFile(fInput).nextLine();
+            int numberFlag = 1;
+            while (scanFile(firstLine).hasNext()) {
+                String numberID = scanFile(firstLine).next();
+                if (numberFlag == 1) {
+                    row = string2Int(numberID);
+                    numberFlag = 0;
+                } else {
+                    column = string2Int(numberID);
+                }
+            }
+            print(add("Row is: ", row));
+            print(add("Column is: ", column));
+            ArrayInit();
+        }
+        
+        public void ArrayInit() {
+            fileArray = new char[column];
+            generation = new char[(int)add(row, 1)][(int)add(column, 1)];
+            state = new int[(int)add(row, 1)][(int)add(column, 1)];
+        }
+        
+        public void generationInit() throws Exception {
+            int count = 0;
+            while (scanFile(fInput).hasNextLine()) {
+                String current = scanFile(fInput).nextLine();
+                fileArray = string2Array(current);
+                for (int i = 0;i < fileArray.length;i = (int)add(i, 1)) {
+                    if (fileArray[i] == '*') {
+                        generation[(int)add(count, 1)][(int)add(i, 1)] = fileArray[i];
+                    }
+                }
+                count = (int)add(count, 1);
+            }
+        }
+        
+        public void printGeneration() throws Exception {
+            for (int i = 1; i < (int)add(row, 1);i = (int)add(i, 1)) {
+                for (int j = 1;j < (int)add(column, 1);j = (int)add(j, 1)) {
+                    writefile(fOutput, char2String(generation[i][j]), false);
+                    print(generation[i][j]);
+                }
+                printFile(fOutput).println();
+                print();
+            }
+            printFile(fOutput).close();
+        }
+        
+        public void printResult() throws Exception {
+            String title = "Conway's Life Game";
+            String generationNumber = (String)add("Generation Number: ", gen) ;
+            String inputFileName = (String)add("Input File name: ", inputName);
+            String outputFileName = (String)add("Output File name: ", outputName);
+            if (writeFlag == 1) {
+                print(title);
+                print(generationNumber);
+                print(inputFileName);
+                print(outputFileName);
+                print();
+                writefile(fOutput, title, true);
+                writefile(fOutput, generationNumber, false);
+                printGeneration();
+                writeFlag = 0;
+            } else {
+                print();
+                writefile(fOutput, "", false);
+                printGeneration();
+            }
+        }
+        
+        public int gameRules(int i, int j) {
+            int conFlag = 0;
+            for (int r = (int)minus(i, 1);r <= (int)add(i, 1);r = (int)add(r, 1)) {
+                for (int c = (int)minus(j, 1);c <= (int)add(j, 1);c = (int)add(c, 1)) {
+                    if (generation[r][c] == '*') {
+                        conFlag = (int)add(conFlag, 1);
+                    }
+                }
+            }
+            
+            if (generation[i][j] == '*') {
+                if ((conFlag == 3)||(conFlag == 4)) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else {
+                if (conFlag == 3) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+        
+        public void Operator() throws Exception {
+            int time = 0;
+            while (time <= gen) {
+                for (int i = 0;i < (int)add(row, 2);i = (int)add(i, 1)) {
+                    for (int j = 0;j < (int)add(column, 2);j = (int)add(j, 1)) {
+                        state[i][j] = 0;
+                    }
+                }
+                
+                if (time != 0) {
+                    for (int i = 1;i < (int)add(row, 1);i = (int)add(i, 1)) {
+                        for (int j = 1;j < (int)add(column, 1);j = (int)add(j, 1)) {
+                            state[i][j] = gameRules(i, j);
+                        }
+                    }
+                    
+                    for (int i = 0;i < (int)add(row, 2);i = (int)add(i, 1)) {
+                        for (int j = 0;j < (int)add(column, 2); j = (int)add(j, 1)) {
+                            if (state[i][j] == 1) {
+                                generation[i][j] = '*';
+                            } else {
+                                generation[i][j] = '-';
+                            }
+                        }
+                    }
+                }
+                
+                printResult();
+                time = (int)add(time, 1);
+            }
+        }
+        
+        public void conwayStep() throws Exception {
+            generationInit();
+            Operator();
+        }
+    }
+    
+    public void init() throws Exception {
+        ConwayOperator co = new ConwayOperator("life.txt", "out.txt", 10);
+        co.conwayStep();
+    }
+    public static void main(String args[]) throws Exception {
+        System.out.println("Load compiler successfully");
+        TuringMachine tm = new TuringMachine();
+        tm.init();
+    }
+}

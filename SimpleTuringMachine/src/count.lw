@@ -1,0 +1,10 @@
+function void countNumber() {
+    int n = 10;
+    condition_Loop(n > 0) {
+        n = (int)minus(n, 1);
+        print(n);
+    }
+}
+function void init() {
+    countNumber();
+}
