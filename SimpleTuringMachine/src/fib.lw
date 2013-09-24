@@ -9,7 +9,9 @@ function int fibb(int n) {
     } else if (n == 2) {
 	return 1;
     } else {
-	return fibb((int)minus(n, 1)) + fibb((int)minus(n, 2));
+        int e1 = fibb((int)minus(n, 1));
+        int e2 = fibb((int)minus(n, 2));
+        return (int)add(e1, e2);
     }
 }
 
