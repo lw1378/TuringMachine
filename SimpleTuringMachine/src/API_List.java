@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -44,6 +45,11 @@ public class API_List {
         System.out.println();
     }
     
+    protected String printInLine(Object currentString) {
+        System.out.print(currentString);
+        return currentString.toString();
+    }
+    
     /**
      * add two elements together
      * If both are numbers, then add the two numbers
@@ -55,61 +61,61 @@ public class API_List {
     protected Object add(Object e1, Object e2) {
         
         if (e1.getClass().toString().equals(type_Integer)&&
-                e2.getClass().toString().equals(type_Integer)) {
+            e2.getClass().toString().equals(type_Integer)) {
             int result = (int)e1 + (int)e2;
             return result;
         } else if (e1.getClass().toString().equals(type_Long)&&
-                e2.getClass().toString().equals(type_Long)) {
+                   e2.getClass().toString().equals(type_Long)) {
             long result = (long)e1 + (long)e2;
             return result;
         } else if ((e1.getClass().toString().equals(type_Integer)&&
-                e2.getClass().toString().equals(type_Long))||
-                (e1.getClass().toString().equals(type_Long)&&
-                e2.getClass().toString().equals(type_Integer))) {
-            long result = (long)e1 + (long)e2;
-            return result;
-        } else if (e1.getClass().toString().equals(type_Float)&&
-                e2.getClass().toString().equals(type_Float)) {
-            float result = (float)e1 + (float)e2;
-            return result;
-        } else if (((e1.getClass().toString().equals(type_Integer)||
-                e1.getClass().toString().equals(type_Long))&&
-                e2.getClass().toString().equals(type_Float))||
-                (e1.getClass().toString().equals(type_Float)&&
-                (e2.getClass().toString().equals(type_Integer)||
-                e2.getClass().toString().equals(type_Long)))) {
-            float result = (float)e1 + (float)e2;
-            return result;
-        }
-        else if (e1.getClass().toString().equals(type_Double)&&
-                e2.getClass().toString().equals(type_Double)) {
-            double result = (double)e1 + (double)e2;
-            return result;
-        } else if (((e1.getClass().toString().equals(type_Integer)||
-                e1.getClass().toString().equals(type_Long)||
-                e1.getClass().toString().equals(type_Float))&&
-                e2.getClass().toString().equals(type_Double))||
-                (e1.getClass().toString().equals(type_Double)&&
-                (e2.getClass().toString().equals(type_Integer)||
-                e2.getClass().toString().equals(type_Long)||
-                e2.getClass().toString().equals(type_Float)))) {
-            double result = (double)e1 + (double)e2;
-            return result;
-        } else if (e1.getClass().toString().equals(type_String)&&
-                e2.getClass().toString().equals(type_String)) {
-            String result = (String)e1 + (String)e2;
-            return result;
-        } else if (e1.getClass().toString().equals(type_String)&&
-                !e2.getClass().toString().equals(type_String)) {
-            String result = (String)e1 + e2;
-            return result;
-        } else if (!e1.getClass().toString().equals(type_String)&&
-                e2.getClass().toString().equals(type_String)) {
-            String result = e1 + (String)e2;
-            return result;
-        } else {
-            return "error";
-        }
+                    e2.getClass().toString().equals(type_Long))||
+                   (e1.getClass().toString().equals(type_Long)&&
+                    e2.getClass().toString().equals(type_Integer))) {
+                       long result = (long)e1 + (long)e2;
+                       return result;
+                   } else if (e1.getClass().toString().equals(type_Float)&&
+                              e2.getClass().toString().equals(type_Float)) {
+                       float result = (float)e1 + (float)e2;
+                       return result;
+                   } else if (((e1.getClass().toString().equals(type_Integer)||
+                                e1.getClass().toString().equals(type_Long))&&
+                               e2.getClass().toString().equals(type_Float))||
+                              (e1.getClass().toString().equals(type_Float)&&
+                               (e2.getClass().toString().equals(type_Integer)||
+                                e2.getClass().toString().equals(type_Long)))) {
+                                   float result = (float)e1 + (float)e2;
+                                   return result;
+                               }
+                   else if (e1.getClass().toString().equals(type_Double)&&
+                            e2.getClass().toString().equals(type_Double)) {
+                       double result = (double)e1 + (double)e2;
+                       return result;
+                   } else if (((e1.getClass().toString().equals(type_Integer)||
+                                e1.getClass().toString().equals(type_Long)||
+                                e1.getClass().toString().equals(type_Float))&&
+                               e2.getClass().toString().equals(type_Double))||
+                              (e1.getClass().toString().equals(type_Double)&&
+                               (e2.getClass().toString().equals(type_Integer)||
+                                e2.getClass().toString().equals(type_Long)||
+                                e2.getClass().toString().equals(type_Float)))) {
+                                   double result = (double)e1 + (double)e2;
+                                   return result;
+                               } else if (e1.getClass().toString().equals(type_String)&&
+                                          e2.getClass().toString().equals(type_String)) {
+                                   String result = (String)e1 + (String)e2;
+                                   return result;
+                               } else if (e1.getClass().toString().equals(type_String)&&
+                                          !e2.getClass().toString().equals(type_String)) {
+                                   String result = (String)e1 + e2;
+                                   return result;
+                               } else if (!e1.getClass().toString().equals(type_String)&&
+                                          e2.getClass().toString().equals(type_String)) {
+                                   String result = e1 + (String)e2;
+                                   return result;
+                               } else {
+                                   return "error";
+                               }
     }
     
     /**
@@ -124,107 +130,107 @@ public class API_List {
     protected Object minus(Object e1, Object e2) {
         
         if (e1.getClass().toString().equals(type_Integer)&&
-                e2.getClass().toString().equals(type_Integer)) {
+            e2.getClass().toString().equals(type_Integer)) {
             int result = (int)e1 - (int)e2;
             return result;
         } else if (e1.getClass().toString().equals(type_Long)&&
-                e2.getClass().toString().equals(type_Long)) {
+                   e2.getClass().toString().equals(type_Long)) {
             long result = (long)e1 - (long)e2;
             return result;
         } else if ((e1.getClass().toString().equals(type_Integer)&&
-                e2.getClass().toString().equals(type_Long))||
-                (e1.getClass().toString().equals(type_Long)&&
-                e2.getClass().toString().equals(type_Integer))) {
-            long result = (long)e1 - (long)e2;
-            return result;
-        } else if (e1.getClass().toString().equals(type_Float)&&
-                e2.getClass().toString().equals(type_Float)) {
-            float result = (float)e1 - (float)e2;
-            return result;
-        } else if (((e1.getClass().toString().equals(type_Integer)||
-                e1.getClass().toString().equals(type_Long))&&
-                e2.getClass().toString().equals(type_Float))||
-                (e1.getClass().toString().equals(type_Float)&&
-                (e2.getClass().toString().equals(type_Integer)||
-                e2.getClass().toString().equals(type_Long)))) {
-            float result = (float)e1 - (float)e2;
-            return result;
-        } else if (e1.getClass().toString().equals(type_Double)&&
-                e2.getClass().toString().equals(type_Double)) {
-            double result = (double)e1 - (double)e2;
-            return result;
-        } else if (((e1.getClass().toString().equals(type_Integer)||
-                e1.getClass().toString().equals(type_Long)||
-                e1.getClass().toString().equals(type_Float))&&
-                e2.getClass().toString().equals(type_Double))||
-                (e1.getClass().toString().equals(type_Double)&&
-                (e2.getClass().toString().equals(type_Integer)||
-                e2.getClass().toString().equals(type_Long)||
-                e2.getClass().toString().equals(type_Float)))) {
-            double result = (double)e1 - (double)e2;
-            return result;
-        } else if (e1.getClass().toString().equals(type_String)||
-                e2.getClass().toString().equals(type_String)) {
-            String result = e1.toString().replaceAll(e2.toString(), "");
-            return result;
-        } else {
-            return "error";
-        }
+                    e2.getClass().toString().equals(type_Long))||
+                   (e1.getClass().toString().equals(type_Long)&&
+                    e2.getClass().toString().equals(type_Integer))) {
+                       long result = (long)e1 - (long)e2;
+                       return result;
+                   } else if (e1.getClass().toString().equals(type_Float)&&
+                              e2.getClass().toString().equals(type_Float)) {
+                       float result = (float)e1 - (float)e2;
+                       return result;
+                   } else if (((e1.getClass().toString().equals(type_Integer)||
+                                e1.getClass().toString().equals(type_Long))&&
+                               e2.getClass().toString().equals(type_Float))||
+                              (e1.getClass().toString().equals(type_Float)&&
+                               (e2.getClass().toString().equals(type_Integer)||
+                                e2.getClass().toString().equals(type_Long)))) {
+                                   float result = (float)e1 - (float)e2;
+                                   return result;
+                               } else if (e1.getClass().toString().equals(type_Double)&&
+                                          e2.getClass().toString().equals(type_Double)) {
+                                   double result = (double)e1 - (double)e2;
+                                   return result;
+                               } else if (((e1.getClass().toString().equals(type_Integer)||
+                                            e1.getClass().toString().equals(type_Long)||
+                                            e1.getClass().toString().equals(type_Float))&&
+                                           e2.getClass().toString().equals(type_Double))||
+                                          (e1.getClass().toString().equals(type_Double)&&
+                                           (e2.getClass().toString().equals(type_Integer)||
+                                            e2.getClass().toString().equals(type_Long)||
+                                            e2.getClass().toString().equals(type_Float)))) {
+                                               double result = (double)e1 - (double)e2;
+                                               return result;
+                                           } else if (e1.getClass().toString().equals(type_String)||
+                                                      e2.getClass().toString().equals(type_String)) {
+                                               String result = e1.toString().replaceAll(e2.toString(), "");
+                                               return result;
+                                           } else {
+                                               return "error";
+                                           }
     }
     
-   /**
-    * multiply two elements
-    * as it does not make sense to multiply two strings, so it requires that
-    * two elements must be numbers
-    * @param e1
-    * @param e2
-    * @return result
-    */ 
+    /**
+     * multiply two elements
+     * as it does not make sense to multiply two strings, so it requires that
+     * two elements must be numbers
+     * @param e1
+     * @param e2
+     * @return result
+     */
     protected Object multiply(Object e1, Object e2) {
         
         if (e1.getClass().toString().equals(type_Integer)&&
-                e2.getClass().toString().equals(type_Integer)) {
+            e2.getClass().toString().equals(type_Integer)) {
             int result = (int)e1 * (int)e2;
             return result;
         } else if (e1.getClass().toString().equals(type_Long)&&
-                e2.getClass().toString().equals(type_Long)) {
+                   e2.getClass().toString().equals(type_Long)) {
             long result = (long)e1 * (long)e2;
             return result;
         } else if ((e1.getClass().toString().equals(type_Integer)&&
-                e2.getClass().toString().equals(type_Long))||
-                (e1.getClass().toString().equals(type_Long)&&
-                e2.getClass().toString().equals(type_Integer))) {
-            long result = (long)e1 * (long)e2;
-            return result;
-        } else if (e1.getClass().toString().equals(type_Float)&&
-                e2.getClass().toString().equals(type_Float)) {
-            float result = (float)e1 * (float)e2;
-            return result;
-        } else if (((e1.getClass().toString().equals(type_Integer)||
-                e1.getClass().toString().equals(type_Long))&&
-                e2.getClass().toString().equals(type_Float))||
-                (e1.getClass().toString().equals(type_Float)&&
-                (e2.getClass().toString().equals(type_Integer)||
-                e2.getClass().toString().equals(type_Long)))) {
-            float result = (float)e1 * (float)e2;
-            return result;
-        } else if (e1.getClass().toString().equals(type_Double)&&
-                e2.getClass().toString().equals(type_Double)) {
-            double result = (double)e1 * (double)e2;
-            return result;
-        } else if (((e1.getClass().toString().equals(type_Integer)||
-                e1.getClass().toString().equals(type_Long)||
-                e1.getClass().toString().equals(type_Float))&&
-                e2.getClass().toString().equals(type_Double))||
-                (e1.getClass().toString().equals(type_Double)&&
-                (e2.getClass().toString().equals(type_Integer)||
-                e2.getClass().toString().equals(type_Long)||
-                e2.getClass().toString().equals(type_Float)))) {
-            double result = (double)e1 * (double)e2;
-            return result;
-        } else {
-            return "error";
-        }
+                    e2.getClass().toString().equals(type_Long))||
+                   (e1.getClass().toString().equals(type_Long)&&
+                    e2.getClass().toString().equals(type_Integer))) {
+                       long result = (long)e1 * (long)e2;
+                       return result;
+                   } else if (e1.getClass().toString().equals(type_Float)&&
+                              e2.getClass().toString().equals(type_Float)) {
+                       float result = (float)e1 * (float)e2;
+                       return result;
+                   } else if (((e1.getClass().toString().equals(type_Integer)||
+                                e1.getClass().toString().equals(type_Long))&&
+                               e2.getClass().toString().equals(type_Float))||
+                              (e1.getClass().toString().equals(type_Float)&&
+                               (e2.getClass().toString().equals(type_Integer)||
+                                e2.getClass().toString().equals(type_Long)))) {
+                                   float result = (float)e1 * (float)e2;
+                                   return result;
+                               } else if (e1.getClass().toString().equals(type_Double)&&
+                                          e2.getClass().toString().equals(type_Double)) {
+                                   double result = (double)e1 * (double)e2;
+                                   return result;
+                               } else if (((e1.getClass().toString().equals(type_Integer)||
+                                            e1.getClass().toString().equals(type_Long)||
+                                            e1.getClass().toString().equals(type_Float))&&
+                                           e2.getClass().toString().equals(type_Double))||
+                                          (e1.getClass().toString().equals(type_Double)&&
+                                           (e2.getClass().toString().equals(type_Integer)||
+                                            e2.getClass().toString().equals(type_Long)||
+                                            e2.getClass().toString().equals(type_Float)))) {
+                                               double result = (double)e1 * (double)e2;
+                                               return result;
+                                           } else {
+                                               return "error";
+                                           }
     }
     
     /**
@@ -234,54 +240,54 @@ public class API_List {
      * divide cannot be used for strings
      * @param e1
      * @param e2
-     * @return 
+     * @return
      */
     protected Object divide(Object e1, Object e2) {
         
         if ((double)e2 != 0) {
             if (e1.getClass().toString().equals(type_Integer)&&
-                    e2.getClass().toString().equals(type_Integer)) {
+                e2.getClass().toString().equals(type_Integer)) {
                 int result = (int)e1 / (int)e2;
                 return result;
             } else if (e1.getClass().toString().equals(type_Long)&&
-                    e2.getClass().toString().equals(type_Long)) {
+                       e2.getClass().toString().equals(type_Long)) {
                 long result = (long)e1 / (long)e2;
                 return result;
             } else if ((e1.getClass().toString().equals(type_Integer)&&
-                    e2.getClass().toString().equals(type_Long))||
-                    (e1.getClass().toString().equals(type_Long)&&
-                    e2.getClass().toString().equals(type_Integer))) {
-                long result = (long)e1 / (long)e2;
-                return result;
-            } else if (e1.getClass().toString().equals(type_Float)&&
-                    e2.getClass().toString().equals(type_Float)) {
-                float result = (float)e1 / (float)e2;
-                return result;
-            } else if (((e1.getClass().toString().equals(type_Integer)||
-                    e1.getClass().toString().equals(type_Long))&&
-                    e2.getClass().toString().equals(type_Float))||
-                    (e1.getClass().toString().equals(type_Float)&&
-                    (e2.getClass().toString().equals(type_Integer)||
-                    e2.getClass().toString().equals(type_Long)))) {
-                float result = (float)e1 / (float)e2;
-                return result;
-            } else if (e1.getClass().toString().equals(type_Double)&&
-                    e2.getClass().toString().equals(type_Double)) {
-                double result = (double)e1 / (double)e2;
-                return result;
-            } else if (((e1.getClass().toString().equals(type_Integer)||
-                    e1.getClass().toString().equals(type_Long)||
-                    e1.getClass().toString().equals(type_Float))&&
-                    e2.getClass().toString().equals(type_Double))||
-                    (e1.getClass().toString().equals(type_Double)&&
-                    (e2.getClass().toString().equals(type_Integer)||
-                    e2.getClass().toString().equals(type_Long)||
-                    e2.getClass().toString().equals(type_Float)))) {
-                double result = (double)e1 / (double)e2;
-                return result;
-            } else {
-                return "error";
-            }
+                        e2.getClass().toString().equals(type_Long))||
+                       (e1.getClass().toString().equals(type_Long)&&
+                        e2.getClass().toString().equals(type_Integer))) {
+                           long result = (long)e1 / (long)e2;
+                           return result;
+                       } else if (e1.getClass().toString().equals(type_Float)&&
+                                  e2.getClass().toString().equals(type_Float)) {
+                           float result = (float)e1 / (float)e2;
+                           return result;
+                       } else if (((e1.getClass().toString().equals(type_Integer)||
+                                    e1.getClass().toString().equals(type_Long))&&
+                                   e2.getClass().toString().equals(type_Float))||
+                                  (e1.getClass().toString().equals(type_Float)&&
+                                   (e2.getClass().toString().equals(type_Integer)||
+                                    e2.getClass().toString().equals(type_Long)))) {
+                                       float result = (float)e1 / (float)e2;
+                                       return result;
+                                   } else if (e1.getClass().toString().equals(type_Double)&&
+                                              e2.getClass().toString().equals(type_Double)) {
+                                       double result = (double)e1 / (double)e2;
+                                       return result;
+                                   } else if (((e1.getClass().toString().equals(type_Integer)||
+                                                e1.getClass().toString().equals(type_Long)||
+                                                e1.getClass().toString().equals(type_Float))&&
+                                               e2.getClass().toString().equals(type_Double))||
+                                              (e1.getClass().toString().equals(type_Double)&&
+                                               (e2.getClass().toString().equals(type_Integer)||
+                                                e2.getClass().toString().equals(type_Long)||
+                                                e2.getClass().toString().equals(type_Float)))) {
+                                                   double result = (double)e1 / (double)e2;
+                                                   return result;
+                                               } else {
+                                                   return "error";
+                                               }
         } else {
             System.out.println("e2 cannot be 0!");
             return "INFINITY";
@@ -584,7 +590,7 @@ public class API_List {
     /**
      * quick sort operator for integer
      * @param currentList
-     * @return 
+     * @return
      */
     private List<Integer> quickSortOperator_Integer(List<Integer> currentList) {
         if (currentList.size() > 1) {
@@ -613,7 +619,7 @@ public class API_List {
     /**
      * quick sort operator for long
      * @param currentList
-     * @return 
+     * @return
      */
     private List<Long> quickSortOperator_Long(List<Long> currentList) {
         if (currentList.size() > 1) {
@@ -642,7 +648,7 @@ public class API_List {
     /**
      * quick sort operator for float
      * @param currentList
-     * @return 
+     * @return
      */
     private List<Float> quickSortOperator_Float(List<Float> currentList) {
         if (currentList.size() > 1) {
@@ -671,7 +677,7 @@ public class API_List {
     /**
      * quick sort operator for double
      * @param currentList
-     * @return 
+     * @return
      */
     private List<Double> quickSortOperator_Double(List<Double> currentList) {
         if (currentList.size() > 1) {
@@ -700,7 +706,7 @@ public class API_List {
     /**
      * quick sort operator for other types
      * @param currentList
-     * @return 
+     * @return
      */
     private List<Object> quickSortOperator_Object(List<Object> currentList) {
         if (currentList.size() > 1) {
@@ -739,7 +745,7 @@ public class API_List {
                 mergeList.add((int)currentArray[i]);
             }
             result = mergeSortOperator_Integer(mergeList);
-            for (int i = 0;i < result.size();i ++) {         
+            for (int i = 0;i < result.size();i ++) {
                 currentArray[i] = result.get(i);
             }
             return currentArray;
@@ -793,7 +799,7 @@ public class API_List {
     /**
      * merge sort operator for integer
      * @param currentList
-     * @return 
+     * @return
      */
     private List<Integer> mergeSortOperator_Integer(List<Integer> currentList) {
         if (currentList.size() > 1) {
@@ -846,7 +852,7 @@ public class API_List {
     /**
      * merge sort for long
      * @param currentList
-     * @return 
+     * @return
      */
     private List<Long> mergeSortOperator_Long(List<Long> currentList) {
         if (currentList.size() > 1) {
@@ -899,7 +905,7 @@ public class API_List {
     /**
      * merge sort for float
      * @param currentList
-     * @return 
+     * @return
      */
     private List<Float> mergeSortOperator_Float(List<Float> currentList) {
         if (currentList.size() > 1) {
@@ -952,7 +958,7 @@ public class API_List {
     /**
      * merge sort for double
      * @param currentList
-     * @return 
+     * @return
      */
     private List<Double> mergeSortOperator_Double(List<Double> currentList) {
         if (currentList.size() > 1) {
@@ -1005,7 +1011,7 @@ public class API_List {
     /**
      * merge sort for other types
      * @param currentList
-     * @return 
+     * @return
      */
     private List<Object> mergeSortOperator_Object(List<Object> currentList) {
         if (currentList.size() > 1) {
@@ -1116,7 +1122,7 @@ public class API_List {
     
     /**
      * build up the heap tree
-     * @param currentArray 
+     * @param currentArray
      */
     private void buildMaxHeap(Object[] currentArray) {
         heapLength = currentArray.length;
@@ -1139,7 +1145,7 @@ public class API_List {
     /**
      * sort the tree
      * @param node
-     * @param currentArray 
+     * @param currentArray
      */
     private void maxHeapify(int node,Object[] currentArray) {
         int left = leftChild(node);
@@ -1253,14 +1259,14 @@ public class API_List {
      * calculate the power with the base
      * @param base
      * @param powerNum
-     * @return 
+     * @return
      */
     protected double power(double base, int powerNum) {
         
-        if (powerNum > 0) {    
+        if (powerNum > 0) {
             for (int i = 0;i < powerNum;i ++) {
                 base = base * base;
-            } 
+            }
         } else if (powerNum == 0) {
             return 1;
         } else {
@@ -1363,7 +1369,7 @@ public class API_List {
      * open a file, if it does not exist, then create one
      * @param fileName
      * @return file
-     * @throws IOException 
+     * @throws IOException
      */
     protected File openfile(String fileName) throws IOException {
         File f = new File(fileName);
@@ -1378,7 +1384,7 @@ public class API_List {
      * read the whole file and write it as a string
      * @param f
      * @return file string
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      */
     protected String readfile(File f) throws FileNotFoundException, IOException {
         FileInputStream fis = new FileInputStream(f);
@@ -1430,22 +1436,37 @@ public class API_List {
      * @param writeFromStart
      * @throws FileNotFoundException 
      */
-    protected void writefile(File f, String content, boolean writeFromStart) throws FileNotFoundException, IOException {
+    protected void writefile(File f, String content, boolean writeFromStart, boolean nextLine) throws FileNotFoundException, IOException {
         
-        if (f.exists()) {  
-            if (writeFromStart) {
-                PrintWriter pw = new PrintWriter(f);
-                pw.println(content);
-                pw.flush();
-                pw.close();
+        if (f.exists()) {
+            if (nextLine) {
+                if (writeFromStart) {
+                    PrintWriter pw = new PrintWriter(f);
+                    pw.println(content);
+                    pw.flush();
+                    pw.close();
+                } else {
+                    FileWriter fw = new FileWriter(f, true);
+                    PrintWriter pw = new PrintWriter(fw);
+                    pw.println(content);
+                    pw.flush();
+                    pw.close();
+                } 
             } else {
-                String original = readfile(f);
-                PrintWriter pw = new PrintWriter(f);
-                pw.println(original + content);
-                pw.flush();
-                pw.close();
+                if (writeFromStart) {
+                    PrintWriter pw = new PrintWriter(f);
+                    pw.print(content);
+                    pw.flush();
+                    pw.close();
+                } else {
+                    FileWriter fw = new FileWriter(f, true);
+                    PrintWriter pw = new PrintWriter(fw);
+                    pw.print(content);
+                    pw.flush();
+                    pw.close();
+                } 
             }
-            System.out.println("file write successfully!");
+            
         } else {
             System.out.println("file does not exist!");
         }

@@ -2,11 +2,14 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Scanner;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
@@ -16,8 +19,8 @@ import javax.tools.SimpleJavaFileObject;
 import javax.tools.ToolProvider;
 
 
-public class SimpleTuringMachine extends API_List{
-
+public class SimpleTuringMachine  {
+    
     /**
      * @param args the command line arguments
      */
@@ -37,13 +40,15 @@ public class SimpleTuringMachine extends API_List{
             }
         } else {
             fileName = "helloWorld.lw";
-        }      
+        }
         File file = new File(fileName);
         if (!file.exists()) {
             System.out.println("No such a file: " + fileName);
             System.exit(0);
         }
         
+        SimpleTuringMachine jtm = new SimpleTuringMachine();
+        jtm.lexemeCheck(file);
         FileInputStream fis = new FileInputStream(file);
         InputStreamReader isr = new InputStreamReader(fis);
         BufferedReader br = new BufferedReader(isr);
@@ -51,16 +56,24 @@ public class SimpleTuringMachine extends API_List{
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        File t = new File("javacode");
-        if (!t.exists()) {
-            t.createNewFile();
+        File userCode = new File("userCode");
+        if (!userCode.exists()) {
+            userCode.createNewFile();
         }
-        String allcode = "";
+        
+        FileOutputStream fos = new FileOutputStream(userCode);
+        PrintWriter upw = new PrintWriter(fos);
         String codeLine = "";
         pw.println("import java.io.File;");
+        pw.println("import java.util.Scanner;");
+        pw.println("import java.io.PrintWriter;");
+        pw.println("import java.util.List;");
         pw.println("public class TuringMachine extends Run_Model {");
-        allcode = allcode + "import java.io.File;\n\r"
-                + "public class TuringMachine extends Run_Model {\n\r";
+        upw.println("import java.io.File;");
+        upw.println("import java.util.Scanner;");
+        upw.println("import java.io.PrintWriter;");
+        upw.println("import java.util.List;");
+        upw.println("public class TuringMachine extends Run_Model {");
         for (int i = 1;(codeLine = br.readLine()) != null;i ++) {
             if (codeLine.contains("function")) {
                 codeLine = codeLine.replace("function", "public");
@@ -75,7 +88,8 @@ public class SimpleTuringMachine extends API_List{
                 codeLine = codeLine.replace("for_Loop", "for");
             }
             pw.println("    " + codeLine);
-            allcode = allcode + "    " + codeLine + "\n\r";
+            upw.println("    " + codeLine);
+            
         }
         pw.println("    public static void main(String args[]) throws Exception {");
         pw.println("        System.out.println(\"Load compiler successfully\");");
@@ -84,20 +98,17 @@ public class SimpleTuringMachine extends API_List{
         pw.println("    }");
         pw.println("}");
         
-        allcode = allcode + "    public static void main(String args[]) throws Exception {\n\r"
-                + "        System.out.println(\"Load compiler successfully\");\n\r"
-                + "        TuringMachine tm = new TuringMachine();\n\r"
-                + "        tm.init();\n\r"
-                + "    }\n\r"
-                + "}\n\r";
+        upw.println("    public static void main(String args[] throws Exception {)");
+        upw.println("        System.out.println(\"Load compiler successfully\");");
+        upw.println("        TuringMachine tm = new TuringMachine();");
+        upw.println("    }");
+        upw.println("}");
+        upw.flush();
+        upw.close();
         
-        PrintWriter pwtest = new PrintWriter(t);
-        pwtest.println(allcode);
-        
-        JavaFileObject fileObject = new JavaSourceFromString("TuringMachine", sw.toString());
+        JavaFileObject fileObject = new SimpleTuringMachine.JavaSourceFromString("TuringMachine", sw.toString());
         Iterable<? extends JavaFileObject> cUnits = Arrays.asList(fileObject);
-        DiagnosticCollector<JavaFileObject> diagnostics = null;
-        diagnostics = new DiagnosticCollector<JavaFileObject>();
+        DiagnosticCollector<JavaFileObject> diagnostics = diagnostics = new DiagnosticCollector<JavaFileObject>();
         CompilationTask task = compiler.getTask(null, null, diagnostics, null, null, cUnits);
         
         boolean compileSuccess = task.call();
@@ -117,12 +128,12 @@ public class SimpleTuringMachine extends API_List{
         if (compileSuccess) {
             try {
                 Class.forName("TuringMachine").getDeclaredMethod("main",
-			new Class[] { String[].class }).invoke(null,
-                        new Object[] { null });
+                                                                 new Class[] { String[].class }).invoke(null,
+                                                                                                        new Object[] { null });
             } catch (ClassNotFoundException e) {
-		System.err.println("Class not found: " + e);
+                System.err.println("Class not found: " + e);
             } catch (NoSuchMethodException e) {
-		System.err.println("No such method: " + e);
+                System.err.println("No such method: " + e);
             } catch (IllegalAccessException e) {
                 System.err.println("Illegal access: " + e);
             }
@@ -131,18 +142,47 @@ public class SimpleTuringMachine extends API_List{
     
     static class JavaSourceFromString extends SimpleJavaFileObject {
         final String code;
-
-	JavaSourceFromString(String name, String code) {
+        
+        JavaSourceFromString(String name, String code) {
             super(URI.create("string:///" + name.replace('.', '/')
-                    + Kind.SOURCE.extension), Kind.SOURCE);
-            System.out.println("string:///" + name.replace('.', '/') + Kind.SOURCE.extension);
+                             + JavaFileObject.Kind.SOURCE.extension), JavaFileObject.Kind.SOURCE);
+            System.out.println("string:///" + name.replace('.', '/') + JavaFileObject.Kind.SOURCE.extension);
             this.code = code;
             System.out.println(this.code);
-	}
+        }
         @Override
-	public CharSequence getCharContent(boolean ignoreEncodingErrors) {
+        public CharSequence getCharContent(boolean ignoreEncodingErrors) {
             return code;
-	}
-
+        }
+        
+    }
+    
+    public static enum F_TYPE {
+        PUBLIC("public"), PROTECTED("protected"), PRIVATE("private"),
+        GOTO("goto"), SWITCH("switch"), ADD("+"), MINUS("-"), MUTIPLY("*"),
+        DIVIDE("/"), FOR("for"), WHILE("while");
+        
+        private String name;
+        
+        private F_TYPE(String name) {
+            this.name = name;
+        }
+        
+        private String getName() {
+            return name;
+        }
+    }
+    
+    public void lexemeCheck(File f) throws IOException {
+        Scanner sc = new Scanner(f);
+        while(sc.hasNextLine()) {
+            String code = sc.nextLine();
+            for (SimpleTuringMachine.F_TYPE ftype : SimpleTuringMachine.F_TYPE.values()) {
+                if (code.contains(ftype.getName())) {
+                    System.out.println(ftype.getName() + " is not allowed !");
+                }
+            }
+        }
     }
 }
+

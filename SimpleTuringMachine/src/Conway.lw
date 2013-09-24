@@ -20,10 +20,12 @@ class ConwayOperator {
         this.gen = gen;
         fInput = new File(inputName);
         fOutput = new File(outputName);
-        String firstLine = scanFile(fInput).nextLine();
+        Scanner sc = scanFile(fInput);
+        String firstLine = sc.nextLine();
+        Scanner scString = scanFile(firstLine);
         int numberFlag = 1;
-        condition_Loop (scanFile(firstLine).hasNext()) {
-            String numberID = scanFile(firstLine).next();
+        condition_Loop (scString.hasNext()) {
+            String numberID = scString.next();
             if (numberFlag == 1) {
                 row = string2Int(numberID);
                 numberFlag = 0;
@@ -38,17 +40,18 @@ class ConwayOperator {
     
     function void ArrayInit() {
         fileArray = new char[column];
-        generation = new char[(int)add(row, 1)][(int)add(column, 1)];
-        state = new int[(int)add(row, 1)][(int)add(column, 1)];
+        generation = new char[(int)add(row, 2)][(int)add(column, 2)];
+        state = new int[(int)add(row, 2)][(int)add(column, 2)];
     }
     
     function void generationInit() throwExc {
         int count = 0;
-        condition_Loop (scanFile(fInput).hasNextLine()) {
-            String current = scanFile(fInput).nextLine();
+        Scanner sc = scanFile(fInput);
+        condition_Loop (sc.hasNextLine()) {
+            String current = sc.nextLine();
             fileArray = string2Array(current);
             for_Loop (int i = 0;i < fileArray.length;i = (int)add(i, 1)) {
-                if (fileArray[i] == '*') {
+                if (fileArray[i] == '@') {
                     generation[(int)add(count, 1)][(int)add(i, 1)] = fileArray[i];
                 }
             }
@@ -59,13 +62,12 @@ class ConwayOperator {
     function void printGeneration() throwExc {
         for_Loop (int i = 1; i < (int)add(row, 1);i = (int)add(i, 1)) {
             for_Loop (int j = 1;j < (int)add(column, 1);j = (int)add(j, 1)) {
-                writefile(fOutput, char2String(generation[i][j]), false);
-                print(generation[i][j]);
+                writefile(fOutput, char2String(generation[i][j]), false, false);
+                printInLine(generation[i][j]);
             }
-            printFile(fOutput).println();
+            writefile(fOutput, "", false, true);
             print();
-        }
-        printFile(fOutput).close();
+        }    
     }
     
     function void printResult() throwExc {
@@ -79,13 +81,13 @@ class ConwayOperator {
             print(inputFileName);
             print(outputFileName);
             print();
-            writefile(fOutput, title, true);
-            writefile(fOutput, generationNumber, false);
+            writefile(fOutput, title, true, true);
+            writefile(fOutput, generationNumber, false, true);
             printGeneration();
             writeFlag = 0;
         } else {
             print();
-            writefile(fOutput, "", false);
+            writefile(fOutput, "", false, true);
             printGeneration();
         }
     }
@@ -94,13 +96,13 @@ class ConwayOperator {
         int conFlag = 0;
         for_Loop (int r = (int)minus(i, 1);r <= (int)add(i, 1);r = (int)add(r, 1)) {
             for_Loop (int c = (int)minus(j, 1);c <= (int)add(j, 1);c = (int)add(c, 1)) {
-                if (generation[r][c] == '*') {
+                if (generation[r][c] == '@') {
                     conFlag = (int)add(conFlag, 1);
                 }
             }
         }
         
-        if (generation[i][j] == '*') {
+        if (generation[i][j] == '@') {
             if ((conFlag == 3)||(conFlag == 4)) {
                 return 1;
             } else {
@@ -134,9 +136,9 @@ class ConwayOperator {
                 for_Loop (int i = 0;i < (int)add(row, 2);i = (int)add(i, 1)) {
                     for_Loop (int j = 0;j < (int)add(column, 2); j = (int)add(j, 1)) {
                         if (state[i][j] == 1) {
-                            generation[i][j] = '*';
+                            generation[i][j] = '@';
                         } else {
-                            generation[i][j] = '-';
+                            generation[i][j] = ' ';
                         }
                     }
                 }
