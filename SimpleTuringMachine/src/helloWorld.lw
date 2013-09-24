@@ -1,0 +1,7 @@
+function void hello() {
+    print("Hello");
+}
+
+function void init() {
+    hello();
+}
