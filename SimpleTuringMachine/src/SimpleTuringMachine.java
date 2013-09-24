@@ -185,7 +185,7 @@ public class SimpleTuringMachine  {
                     System.out.println(ftype.getName() + " is not allowed !");
                     exitPro = true;
                 }
-                if (code.match(pattern)) {
+                if (code.matches(pattern)) {
                     existInit = true;
                 }
             }
