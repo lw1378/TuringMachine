@@ -47,8 +47,8 @@ public class SimpleTuringMachine  {
             System.exit(0);
         }
         
-        SimpleTuringMachine jtm = new SimpleTuringMachine();
-        jtm.lexemeCheck(file);
+        SimpleTuringMachine stm = new SimpleTuringMachine();
+        stm.lexemeCheck(file);
         FileInputStream fis = new FileInputStream(file);
         InputStreamReader isr = new InputStreamReader(fis);
         BufferedReader br = new BufferedReader(isr);
@@ -160,7 +160,7 @@ public class SimpleTuringMachine  {
     public static enum F_TYPE {
         PUBLIC("public"), PROTECTED("protected"), PRIVATE("private"),
         GOTO("goto"), SWITCH("switch"), ADD("+"), MINUS("-"), MUTIPLY("*"),
-        DIVIDE("/"), FOR("for"), WHILE("while"), SYSTEMOP("System");
+        DIVIDE("/"), FOR("for"), WHILE("while"), SYSTEMOP("System"), MAIN("main");
         
         private String name;
         
@@ -175,13 +175,27 @@ public class SimpleTuringMachine  {
     
     public void lexemeCheck(File f) throws IOException {
         Scanner sc = new Scanner(f);
+        boolean exitPro = false;
+        boolean existInit = false;
+        String pattern = ".*void\\s+init\\s*().*";
         while(sc.hasNextLine()) {
             String code = sc.nextLine();
             for (SimpleTuringMachine.F_TYPE ftype : SimpleTuringMachine.F_TYPE.values()) {
                 if (code.contains(ftype.getName())) {
                     System.out.println(ftype.getName() + " is not allowed !");
+                    exitPro = true;
+                }
+                if (code.match(pattern)) {
+                    existInit = true;
                 }
             }
+        }
+        if (exitPro) {
+            System.exit(0);
+        }
+        if (!existInit) {
+            System.out.println("Your code must contain a init() method");
+            System.exit(0);
         }
     }
 }
