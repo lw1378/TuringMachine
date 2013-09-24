@@ -160,7 +160,7 @@ public class SimpleTuringMachine  {
     public static enum F_TYPE {
         PUBLIC("public"), PROTECTED("protected"), PRIVATE("private"),
         GOTO("goto"), SWITCH("switch"), ADD("+"), MINUS("-"), MUTIPLY("*"),
-        DIVIDE("/"), FOR("for"), WHILE("while");
+        DIVIDE("/"), FOR("for"), WHILE("while"), SYSTEMOP("System");
         
         private String name;
         

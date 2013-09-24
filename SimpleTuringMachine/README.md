@@ -1,9 +1,16 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf390
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+The simple sandbox is written with java code
+Running with terminal: java SimpleTuringMachine [yourCodeName].lw
+The file must end with .lw
+And inside you do NOT need to write main method, but you need to write a init() to 
+run the code instead.
+Method sample:
 
-\f0\fs24 \cf0 Application Security Assignment 1\
-The simple sandbox is written with Java code.\
-And limit the use of methods, it runs by "java simpleTuringMachine code.lw"}
+[variables] yourVar = someValue;
+[function] void init() {
+    //your code is here
+}
+
+If you want to throw an exception, just use the throwExc, and you cannot use "+-*/", instead you should use "add()", "minus()", "multiply()", "divide". And some basic sorting methods are also provided, including bubble sort, inserting sort, selection sort, merge sort, quick sort, and heap sort. And some basic triangle methods are provided, like sin, cos, tan. 
+You cannot import other package, and currently arguments are not supported, neither for the system input.
+Some file operations are supported, and given some params which can help to decide the specific ways.
+Also the net I/O is not supported now.
